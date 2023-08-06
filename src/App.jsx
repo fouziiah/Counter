@@ -1,25 +1,28 @@
-import { useState } from 'react'
-import './App.css'
+import { useReducer } from 'react';
+import './App.css';
 
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  function handleIncrement(){
-    setCount(count + 1);
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      return state;
   }
-
-  function handleDecrement(){
-    setCount(count - 1);
-  }
-  return (
-    <div>
-        <h1>Counter</h1>
-        <h1>{count}</h1>
-        <button onClick={handleIncrement}>+</button>
-        <button onClick={handleDecrement}>-</button>
-    </div>
-  )
 }
 
-export default App
+function App() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  return (
+    <div>
+      <h1>Counter</h1>
+      <h1>{state.count}</h1>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+    </div>
+  );
+}
+
+export default App;
